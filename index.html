@@ -1,48 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>ESCAPE</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
 
 <body>
 
+
     <!-- START SCREEN -->
+
     <div id="startScreen">
+
         <div class="startContent">
+
             <h1>ESCAPE</h1>
+
             <p>click to enter</p>
+
         </div>
+
     </div>
 
 
+
     <!-- TOP UI -->
+
     <div id="ui">
 
         <div id="title">
             ESCAPE
         </div>
 
+
         <div id="counter">
+
             <span id="count">0</span>
+
             /
+
             <span id="total">15</span>
+
         </div>
 
     </div>
 
 
+
     <!-- INSTRUCTIONS -->
+
     <div id="hint">
-        move your mouse &nbsp; • &nbsp; click a shape
+
+        move your mouse
+        &nbsp; • &nbsp;
+        click a shape
+
     </div>
 
 
-    <!-- END SCREEN -->
+
+    <!-- ENDING -->
+
     <div id="ending">
 
         <h2>ESCAPE</h2>
@@ -51,15 +84,36 @@
             it's okay to step away.
         </p>
 
+
         <button id="restart">
+
             begin again
+
         </button>
 
     </div>
 
 
-    <!-- GAME -->
-    <script type="module" src="game.js"></script>
+
+    <!--
+        THREE.JS
+
+        This loads Three.js first.
+    -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js">
+    </script>
+
+
+
+    <!--
+        Then our game code.
+    -->
+
+    <script src="game.js"></script>
+
 
 </body>
+
 </html>

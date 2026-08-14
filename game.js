@@ -1,30 +1,47 @@
-import * as THREE from
-"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
-
-
 // ======================================================
 // ESCAPE
+// ======================================================
 //
 // A calm 3D experience about disconnecting
 // from digital distractions.
+//
 // ======================================================
 
 
 
 // ======================================================
-// 1. BASIC THREE.JS SETUP
+// 1. CHECK THAT THREE.JS LOADED
 // ======================================================
 
-const scene = new THREE.Scene();
+if (typeof THREE === "undefined") {
+
+    alert(
+        "Three.js could not load. Please make sure you are connected to the internet."
+    );
+
+    throw new Error(
+        "Three.js did not load."
+    );
+
+}
 
 
-// Dark background
+
+// ======================================================
+// 2. BASIC THREE.JS SETUP
+// ======================================================
+
+const scene =
+    new THREE.Scene();
+
 
 scene.background =
-    new THREE.Color(0x080808);
+    new THREE.Color(
+        0x080808
+    );
 
 
-// Soft fog makes distant objects fade away
+// Soft fog
 
 scene.fog =
     new THREE.FogExp2(
@@ -37,11 +54,16 @@ scene.fog =
 
 const camera =
     new THREE.PerspectiveCamera(
+
         55,
+
         window.innerWidth /
         window.innerHeight,
+
         0.1,
+
         200
+
     );
 
 
@@ -52,25 +74,34 @@ camera.position.set(
 );
 
 
-// Renderer
+
+// ======================================================
+// 3. RENDERER
+// ======================================================
 
 const renderer =
     new THREE.WebGLRenderer({
+
         antialias: true
+
     });
 
 
 renderer.setPixelRatio(
+
     Math.min(
         window.devicePixelRatio,
         2
     )
+
 );
 
 
 renderer.setSize(
+
     window.innerWidth,
     window.innerHeight
+
 );
 
 
@@ -81,13 +112,16 @@ document.body.appendChild(
 
 
 // ======================================================
-// 2. LIGHT
+// 4. LIGHT
 // ======================================================
 
 const ambientLight =
     new THREE.AmbientLight(
+
         0xffffff,
+
         1
+
     );
 
 
@@ -98,28 +132,20 @@ scene.add(
 
 
 // ======================================================
-// 3. GAME VARIABLES
+// 5. GAME VARIABLES
 // ======================================================
 
 const objects = [];
 
 
-// Number of things the player has to remove
-
 const totalObjects = 15;
 
-
-// Number removed so far
 
 let removedObjects = 0;
 
 
-// Has the player clicked "enter"?
-
 let gameStarted = false;
 
-
-// Has the player finished?
 
 let gameFinished = false;
 
@@ -130,7 +156,8 @@ const mouse =
     new THREE.Vector2();
 
 
-// Used to detect what the mouse is pointing at
+// Used to find objects
+// underneath the mouse
 
 const raycaster =
     new THREE.Raycaster();
@@ -138,10 +165,8 @@ const raycaster =
 
 
 // ======================================================
-// 4. WORDS
+// 6. WORDS
 // ======================================================
-
-// These represent digital distractions.
 
 const words = [
 
@@ -180,12 +205,11 @@ const words = [
 
 
 // ======================================================
-// 5. CREATE TEXTURE
+// 7. CREATE TEXT
 // ======================================================
 
-// This creates the little floating words.
-
 function createTextTexture(text) {
+
 
     const canvas =
         document.createElement(
@@ -205,10 +229,13 @@ function createTextTexture(text) {
 
 
     context.clearRect(
+
         0,
         0,
+
         canvas.width,
         canvas.height
+
     );
 
 
@@ -229,11 +256,13 @@ function createTextTexture(text) {
 
 
     context.fillText(
+
         text,
 
         canvas.width / 2,
 
         canvas.height / 2
+
     );
 
 
@@ -243,10 +272,6 @@ function createTextTexture(text) {
         );
 
 
-    texture.needsUpdate =
-        true;
-
-
     return texture;
 
 }
@@ -254,19 +279,20 @@ function createTextTexture(text) {
 
 
 // ======================================================
-// 6. CREATE ONE OBJECT
+// 8. CREATE OBJECT
 // ======================================================
 
 function createObject(index) {
+
 
     const group =
         new THREE.Group();
 
 
 
-    // ----------------------------------------------
-    // CHOOSE A SHAPE
-    // ----------------------------------------------
+    // --------------------------------------------
+    // CHOOSE SHAPE
+    // --------------------------------------------
 
     const shapeTypes = [
 
@@ -299,9 +325,13 @@ function createObject(index) {
 
         geometry =
             new THREE.SphereGeometry(
+
                 0.25,
+
                 16,
+
                 16
+
             );
 
     }
@@ -310,15 +340,19 @@ function createObject(index) {
 
     // Cube
 
-    if (
+    else if (
         shapeType === "box"
     ) {
 
         geometry =
             new THREE.BoxGeometry(
+
                 0.4,
+
                 0.4,
+
                 0.4
+
             );
 
     }
@@ -327,25 +361,28 @@ function createObject(index) {
 
     // Ring
 
-    if (
-        shapeType === "ring"
-    ) {
+    else {
 
         geometry =
             new THREE.TorusGeometry(
+
                 0.28,
+
                 0.06,
+
                 10,
+
                 24
+
             );
 
     }
 
 
 
-    // ----------------------------------------------
+    // --------------------------------------------
     // MATERIAL
-    // ----------------------------------------------
+    // --------------------------------------------
 
     const material =
         new THREE.MeshBasicMaterial({
@@ -363,14 +400,17 @@ function createObject(index) {
 
 
 
-    // ----------------------------------------------
-    // CREATE SHAPE
-    // ----------------------------------------------
+    // --------------------------------------------
+    // SHAPE
+    // --------------------------------------------
 
     const shape =
         new THREE.Mesh(
+
             geometry,
+
             material
+
         );
 
 
@@ -380,9 +420,9 @@ function createObject(index) {
 
 
 
-    // ----------------------------------------------
-    // CREATE WORD
-    // ----------------------------------------------
+    // --------------------------------------------
+    // TEXT
+    // --------------------------------------------
 
     const textMaterial =
         new THREE.SpriteMaterial({
@@ -401,7 +441,6 @@ function createObject(index) {
         });
 
 
-
     const text =
         new THREE.Sprite(
             textMaterial
@@ -409,9 +448,13 @@ function createObject(index) {
 
 
     text.scale.set(
+
         2.7,
+
         0.68,
+
         1
+
     );
 
 
@@ -425,42 +468,25 @@ function createObject(index) {
 
 
 
-    // ----------------------------------------------
-    // POSITION
-    // ----------------------------------------------
+    // --------------------------------------------
+    // RANDOM POSITION
+    // --------------------------------------------
 
     group.position.set(
 
-        (Math.random() - 0.5)
-        * 13,
+        (Math.random() - 0.5) * 13,
 
-        (Math.random() - 0.5)
-        * 7,
+        (Math.random() - 0.5) * 7,
 
-        (Math.random() - 0.5)
-        * 8
+        (Math.random() - 0.5) * 8
 
     );
 
 
 
-    // Keep objects from getting
-    // too close to the camera.
-
-    if (
-        group.position.z > 5
-    ) {
-
-        group.position.z =
-            5;
-
-    }
-
-
-
-    // ----------------------------------------------
+    // --------------------------------------------
     // ANIMATION DATA
-    // ----------------------------------------------
+    // --------------------------------------------
 
     group.userData = {
 
@@ -475,12 +501,10 @@ function createObject(index) {
 
         speed:
             0.0004 +
-            Math.random() *
-            0.0008,
+            Math.random() * 0.0008,
 
         offset:
-            Math.random() *
-            100,
+            Math.random() * 100,
 
         removed:
             false,
@@ -495,14 +519,14 @@ function createObject(index) {
 
 
 
-    // Add it to the scene
+    // Add to scene
 
     scene.add(
         group
     );
 
 
-    // Save it
+    // Save object
 
     objects.push(
         group
@@ -513,7 +537,7 @@ function createObject(index) {
 
 
 // ======================================================
-// 7. CREATE ALL 15 OBJECTS
+// 9. CREATE 15 OBJECTS
 // ======================================================
 
 for (
@@ -522,16 +546,14 @@ for (
     i++
 ) {
 
-    createObject(
-        i
-    );
+    createObject(i);
 
 }
 
 
 
 // ======================================================
-// 8. GET HTML ELEMENTS
+// 10. GET HTML ELEMENTS
 // ======================================================
 
 const startScreen =
@@ -570,7 +592,6 @@ const restart =
     );
 
 
-// Show total number
 
 total.textContent =
     totalObjects;
@@ -578,21 +599,19 @@ total.textContent =
 
 
 // ======================================================
-// 9. START THE GAME
+// 11. START GAME
 // ======================================================
 
 startScreen.addEventListener(
+
     "click",
 
-    () => {
+    function () {
 
-        if (
-            gameStarted
-        ) {
 
-            return;
-
-        }
+        console.log(
+            "ESCAPE started!"
+        );
 
 
         gameStarted =
@@ -603,21 +622,26 @@ startScreen.addEventListener(
             "hidden"
         );
 
+
     }
+
 );
 
 
 
 // ======================================================
-// 10. MOUSE MOVEMENT
+// 12. MOUSE MOVEMENT
 // ======================================================
 
 window.addEventListener(
+
     "mousemove",
 
-    (event) => {
+    function (event) {
+
 
         mouse.x =
+
             (
                 event.clientX /
                 window.innerWidth
@@ -627,6 +651,7 @@ window.addEventListener(
 
 
         mouse.y =
+
             -(
                 event.clientY /
                 window.innerHeight
@@ -634,22 +659,25 @@ window.addEventListener(
             * 2
             + 1;
 
+
     }
+
 );
 
 
 
 // ======================================================
-// 11. CLICKING OBJECTS
+// 13. CLICK OBJECT
 // ======================================================
 
 window.addEventListener(
+
     "click",
 
-    () => {
+    function () {
 
-        // Don't do anything
-        // before the game starts.
+
+        // Game hasn't started yet
 
         if (
             !gameStarted
@@ -660,8 +688,7 @@ window.addEventListener(
         }
 
 
-        // Don't allow clicking
-        // after finishing.
+        // Game already finished
 
         if (
             gameFinished
@@ -673,25 +700,30 @@ window.addEventListener(
 
 
 
-        // Find where the mouse
-        // is pointing.
+        // Tell Three.js where
+        // the mouse is looking.
 
         raycaster.setFromCamera(
+
             mouse,
+
             camera
+
         );
 
 
-
-        // Store all clickable shapes.
 
         const clickableMeshes =
             [];
 
 
 
+        // Find all visible shapes
+
         objects.forEach(
-            (object) => {
+
+            function (object) {
+
 
                 if (
                     object.userData.removed
@@ -705,7 +737,9 @@ window.addEventListener(
 
 
                 object.traverse(
-                    (child) => {
+
+                    function (child) {
+
 
                         if (
                             child.isMesh
@@ -718,23 +752,27 @@ window.addEventListener(
                         }
 
                     }
+
                 );
 
             }
+
         );
 
 
 
-        // Find intersections.
+        // Check for a click
 
         const hits =
             raycaster.intersectObjects(
+
                 clickableMeshes
+
             );
 
 
 
-        // Didn't click anything.
+        // Didn't click an object
 
         if (
             hits.length === 0
@@ -746,30 +784,35 @@ window.addEventListener(
 
 
 
-        // Get the clicked shape.
+        // Find clicked object
 
         let selected =
             hits[0].object;
 
 
 
-        // Find its main group.
+        // Move up to the main group
 
         while (
             selected.parent
         ) {
 
+
             if (
+
                 selected.parent.userData
                 &&
                 selected.parent.userData
                     .hasOwnProperty(
                         "removing"
                     )
+
             ) {
+
 
                 selected =
                     selected.parent;
+
 
                 break;
 
@@ -783,12 +826,14 @@ window.addEventListener(
 
 
 
-        // Start removing it.
+        // Start disappearing
 
         if (
+
             selected.userData
             &&
             !selected.userData.removed
+
         ) {
 
             selected.userData.removing =
@@ -796,18 +841,21 @@ window.addEventListener(
 
         }
 
+
     }
+
 );
 
 
 
 // ======================================================
-// 12. REMOVE OBJECT ANIMATION
+// 14. REMOVE OBJECT
 // ======================================================
 
 function animateRemoval(
     object
 ) {
+
 
     const data =
         object.userData;
@@ -822,14 +870,11 @@ function animateRemoval(
     }
 
 
-    // Increase the removal amount.
+    // Slowly disappear
 
     data.removeProgress +=
         0.018;
 
-
-
-    // Shrink the object.
 
     const scale =
         1 -
@@ -837,44 +882,56 @@ function animateRemoval(
 
 
     object.scale.setScalar(
+
         Math.max(
             scale,
             0
         )
+
     );
 
 
-
-    // Fade the object.
+    // Fade materials
 
     object.traverse(
-        (child) => {
+
+        function (child) {
+
 
             if (
+
                 child.material
                 &&
                 child.material.opacity
                 !== undefined
+
             ) {
 
+
                 child.material.opacity =
+
                     Math.max(
+
                         0,
+
                         scale * 0.7
+
                     );
 
             }
 
         }
+
     );
 
 
 
-    // Object is completely gone.
+    // Completely gone
 
     if (
         data.removeProgress >= 1
     ) {
+
 
         data.removed =
             true;
@@ -887,30 +944,33 @@ function animateRemoval(
         removedObjects++;
 
 
-        // Update counter.
+        // Update counter
 
         count.textContent =
             removedObjects;
 
 
 
-        // Make the fog slightly lighter
-        // as the world becomes emptier.
+        // Make world calmer
 
         scene.fog.density =
+
             0.012 -
+
             (
-                removedObjects
-                * 0.00045
+                removedObjects *
+                0.00045
             );
 
 
 
-        // Check for ending.
+        // All objects removed
 
         if (
+
             removedObjects >=
             totalObjects
+
         ) {
 
             finishGame();
@@ -924,23 +984,24 @@ function animateRemoval(
 
 
 // ======================================================
-// 13. FLOATING ANIMATION
+// 15. FLOATING OBJECTS
 // ======================================================
 
 function animateObjects(
     time
 ) {
 
+
     objects.forEach(
-        (object) => {
+
+        function (object) {
+
 
             const data =
                 object.userData;
 
 
-
-            // Don't animate
-            // removed objects.
+            // Don't animate removed objects
 
             if (
                 data.removed
@@ -951,16 +1012,14 @@ function animateObjects(
             }
 
 
-
-            // Handle disappearing.
+            // Handle disappearing
 
             animateRemoval(
                 object
             );
 
 
-
-            // Don't float while disappearing.
+            // Don't float while disappearing
 
             if (
                 data.removing
@@ -972,68 +1031,62 @@ function animateObjects(
 
 
 
-            // --------------------------------------
-            // FLOAT LEFT / RIGHT
-            // --------------------------------------
+            // Floating left and right
 
             object.position.x =
-                data.baseX
-                +
+
+                data.baseX +
+
                 Math.sin(
-                    time
-                    *
-                    data.speed
-                    +
+
+                    time *
+                    data.speed +
                     data.offset
-                )
-                *
+
+                ) *
+
                 0.35;
 
 
 
-            // --------------------------------------
-            // FLOAT UP / DOWN
-            // --------------------------------------
+            // Floating up and down
 
             object.position.y =
-                data.baseY
-                +
+
+                data.baseY +
+
                 Math.sin(
-                    time
-                    *
-                    data.speed
-                    *
-                    1.2
-                    +
+
+                    time *
+                    data.speed *
+                    1.2 +
                     data.offset
-                )
-                *
+
+                ) *
+
                 0.25;
 
 
 
-            // --------------------------------------
-            // FLOAT FORWARD / BACK
-            // --------------------------------------
+            // Floating forward/backward
 
             object.position.z =
-                data.baseZ
-                +
+
+                data.baseZ +
+
                 Math.cos(
-                    time
-                    *
-                    data.speed
-                    +
+
+                    time *
+                    data.speed +
                     data.offset
-                )
-                *
+
+                ) *
+
                 0.25;
 
 
 
-            // --------------------------------------
-            // ROTATION
-            // --------------------------------------
+            // Slowly rotate
 
             object.rotation.x +=
                 0.001;
@@ -1042,7 +1095,9 @@ function animateObjects(
             object.rotation.y +=
                 0.0015;
 
+
         }
+
     );
 
 }
@@ -1050,10 +1105,11 @@ function animateObjects(
 
 
 // ======================================================
-// 14. FINISH GAME
+// 16. FINISH GAME
 // ======================================================
 
 function finishGame() {
+
 
     if (
         gameFinished
@@ -1068,8 +1124,7 @@ function finishGame() {
         true;
 
 
-
-    // Hide instructions.
+    // Hide instructions
 
     hint.classList.add(
         "hidden"
@@ -1077,19 +1132,22 @@ function finishGame() {
 
 
 
-    // Wait before showing
-    // the ending.
+    // Wait before showing ending
 
     setTimeout(
-        () => {
+
+        function () {
+
 
             ending.classList.add(
                 "show"
             );
 
+
         },
 
         1800
+
     );
 
 }
@@ -1097,31 +1155,38 @@ function finishGame() {
 
 
 // ======================================================
-// 15. RESTART
+// 17. RESTART
 // ======================================================
 
 restart.addEventListener(
+
     "click",
 
-    () => {
+    function () {
+
 
         window.location.reload();
 
+
     }
+
 );
 
 
 
 // ======================================================
-// 16. RESIZE WINDOW
+// 18. WINDOW RESIZE
 // ======================================================
 
 window.addEventListener(
+
     "resize",
 
-    () => {
+    function () {
+
 
         camera.aspect =
+
             window.innerWidth /
             window.innerHeight;
 
@@ -1130,30 +1195,34 @@ window.addEventListener(
 
 
         renderer.setSize(
+
             window.innerWidth,
             window.innerHeight
+
         );
 
+
     }
+
 );
 
 
 
 // ======================================================
-// 17. ANIMATION LOOP
+// 19. ANIMATION LOOP
 // ======================================================
 
 function animate(
     time
 ) {
 
+
     requestAnimationFrame(
         animate
     );
 
 
-
-    // Animate floating objects.
+    // Animate objects
 
     animateObjects(
         time
@@ -1161,51 +1230,71 @@ function animate(
 
 
 
-    // Very subtle camera movement.
+    // Very subtle camera movement
 
     if (
+
         gameStarted
         &&
         !gameFinished
+
     ) {
 
+
         camera.position.x =
+
             Math.sin(
-                time * 0.00012
-            )
-            *
+
+                time *
+                0.00012
+
+            ) *
+
             0.35;
 
 
+
         camera.position.y =
+
             Math.cos(
-                time * 0.0001
-            )
-            *
+
+                time *
+                0.0001
+
+            ) *
+
             0.2;
 
 
+
         camera.lookAt(
+
             0,
             0,
             0
+
         );
 
     }
 
 
 
-    // Draw everything.
+    // Draw scene
 
     renderer.render(
+
         scene,
+
         camera
+
     );
 
 }
 
 
 
-// Start the game loop.
+// ======================================================
+// 20. START ANIMATION
+// ======================================================
 
 animate();

@@ -1182,23 +1182,33 @@ window.addEventListener(
         }
 
 
-        if (
-            selected
-        ) {
 
-            showInteraction(
-                selected
-            );
+        if (selected) {
+
+            const chance = Math.random();
+
+            if (chance < 0.25) {
+
+                showInteraction(
+                    selected
+                );
+
+            } else {
+
+                clearDistraction(
+                    selected,
+                    1
+                );
+
+            }
 
         }
 
-    }
-);
+    });
 
 
-
-// =====================================================
-// MESSAGE SYSTEM
+    // =====================================================
+    // MESSAGE SYSTEM
 // =====================================================
 
 let messageTimeout;

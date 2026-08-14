@@ -2,28 +2,23 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>ESCAPE</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
+    <link rel="stylesheet" href="style.css">
 </head>
 
 
 <body>
 
 
+    <!-- ========================================= -->
     <!-- START SCREEN -->
+    <!-- ========================================= -->
 
     <div id="startScreen">
 
@@ -31,7 +26,13 @@
 
             <h1>ESCAPE</h1>
 
-            <p>click to enter</p>
+            <p>
+                A place to let the noise go.
+            </p>
+
+            <button id="startButton">
+                ENTER
+            </button>
 
         </div>
 
@@ -39,22 +40,24 @@
 
 
 
-    <!-- TOP UI -->
+    <!-- ========================================= -->
+    <!-- TOP HUD -->
+    <!-- ========================================= -->
 
-    <div id="ui">
+    <div id="hud">
 
-        <div id="title">
+        <div class="title">
             ESCAPE
         </div>
 
 
-        <div id="counter">
+        <div class="quietCounter">
 
-            <span id="count">0</span>
+            QUIET
 
-            /
-
-            <span id="total">15</span>
+            <span id="quiet">
+                0
+            </span>
 
         </div>
 
@@ -62,32 +65,116 @@
 
 
 
-    <!-- INSTRUCTIONS -->
+    <!-- ========================================= -->
+    <!-- HELP TEXT -->
+    <!-- ========================================= -->
 
     <div id="hint">
 
-        move your mouse
-        &nbsp; • &nbsp;
-        click a shape
+        Find something that doesn't need
+        your attention.
 
     </div>
 
 
 
-    <!-- ENDING -->
+    <!-- ========================================= -->
+    <!-- INTERACTION PANEL -->
+    <!-- ========================================= -->
 
-    <div id="ending">
+    <div id="interactionPanel"
+        class="hidden">
 
-        <h2>ESCAPE</h2>
+        <div id="interactionBox">
 
-        <p>
-            it's okay to step away.
-        </p>
+            <div id="interactionTitle">
+                MESSAGE
+            </div>
 
 
-        <button id="restart">
+            <div id="interactionText">
+                You have a new message.
+            </div>
 
-            begin again
+
+            <div id="interactionButtons">
+
+                <button id="choiceOne">
+                    LET IT GO
+                </button>
+
+
+                <button id="choiceTwo">
+                    RESPOND
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================= -->
+    <!-- QUIET SHOP -->
+    <!-- ========================================= -->
+
+    <div id="shop">
+
+        <div class="shopTitle">
+            YOUR SPACE
+        </div>
+
+
+        <button
+            class="shopButton"
+            id="plantButton">
+
+            🌱 Plant
+
+            <span>
+                3 Quiet
+            </span>
+
+        </button>
+
+
+        <button
+            class="shopButton"
+            id="lightButton">
+
+            💡 Light
+
+            <span>
+                5 Quiet
+            </span>
+
+        </button>
+
+
+        <button
+            class="shopButton"
+            id="benchButton">
+
+            🪑 Bench
+
+            <span>
+                8 Quiet
+            </span>
+
+        </button>
+
+
+        <button
+            class="shopButton"
+            id="moonButton">
+
+            🌙 Moon
+
+            <span>
+                10 Quiet
+            </span>
 
         </button>
 
@@ -95,23 +182,53 @@
 
 
 
-    <!--
-        THREE.JS
+    <!-- ========================================= -->
+    <!-- MESSAGE -->
+    <!-- ========================================= -->
 
-        This loads Three.js first.
-    -->
+    <div id="message">
+
+    </div>
+
+
+
+    <!-- ========================================= -->
+    <!-- END SCREEN -->
+    <!-- ========================================= -->
+
+    <div id="ending"
+        class="hidden">
+
+        <div class="endingContent">
+
+            <h1 id="endingTitle">
+                ESCAPE
+            </h1>
+
+
+            <p id="endingText">
+                You made a quiet place for yourself.
+            </p>
+
+
+            <button id="restartButton">
+                START AGAIN
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================= -->
+    <!-- THREE.JS GAME -->
+    <!-- ========================================= -->
 
     <script
-        src="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js">
+        type="module"
+        src="game.js">
     </script>
-
-
-
-    <!--
-        Then our game code.
-    -->
-
-    <script src="game.js"></script>
 
 
 </body>

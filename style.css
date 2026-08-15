@@ -1,526 +1,77 @@
-* {
-    box-sizing: border-box;
-}
-
-
-html,
 body {
-
     margin: 0;
-
-    padding: 0;
-
-    width: 100%;
-
-    height: 100%;
-
     overflow: hidden;
-
-    background: #080808;
-
+    background: #060606;
     color: white;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family: Arial;
 }
-
 
 canvas {
-
-    position: fixed;
-
-    top: 0;
-
-    left: 0;
-
-    width: 100%;
-
-    height: 100%;
-
     display: block;
-
 }
-
-
-
-/* ========================================= */
-/* START SCREEN */
-/* ========================================= */
-
-#startScreen {
-
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 20;
-
-    background:
-        radial-gradient(
-            circle,
-            #181818,
-            #050505
-        );
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    text-align: center;
-
-    transition:
-        opacity 1.5s ease;
-
-}
-
-
-#startScreen.hidden {
-
-    opacity: 0;
-
-    pointer-events: none;
-
-}
-
-
-.startContent h1 {
-
-    font-size: 70px;
-
-    font-weight: 300;
-
-    letter-spacing: 18px;
-
-    margin: 0 0 20px 18px;
-
-}
-
-
-.startContent p {
-
-    color: #aaa;
-
-    font-size: 14px;
-
-    letter-spacing: 3px;
-
-    margin-bottom: 40px;
-
-}
-
-
-button {
-
-    border: 1px solid #666;
-
-    background: rgba(255,255,255,0.04);
-
-    color: white;
-
-    padding: 12px 22px;
-
-    font-size: 12px;
-
-    letter-spacing: 3px;
-
-    cursor: pointer;
-
-    transition: 0.3s ease;
-
-}
-
-
-button:hover {
-
-    background: rgba(255,255,255,0.15);
-
-    border-color: white;
-
-}
-
-
-
-/* ========================================= */
-/* HUD */
-/* ========================================= */
 
 #hud {
-
     position: fixed;
-
-    top: 25px;
-
-    left: 30px;
-
-    right: 30px;
-
-    z-index: 10;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    pointer-events: none;
-
-}
-
-
-.title {
-
-    font-size: 14px;
-
-    letter-spacing: 5px;
-
-    opacity: 0.7;
-
-}
-
-
-.quietCounter {
-
-    font-size: 12px;
-
+    top: 20px;
+    left: 20px;
     letter-spacing: 3px;
-
-    color: #aaa;
-
 }
-
-
-#quiet {
-
-    color: white;
-
-    font-size: 18px;
-
-    margin-left: 8px;
-
-}
-
-
-
-/* ========================================= */
-/* HINT */
-/* ========================================= */
-
-#hint {
-
-    position: fixed;
-
-    bottom: 25px;
-
-    left: 50%;
-
-    transform:
-        translateX(-50%);
-
-    z-index: 10;
-
-    color: #777;
-
-    font-size: 11px;
-
-    letter-spacing: 2px;
-
-    text-align: center;
-
-    pointer-events: none;
-
-    transition: opacity 1s ease;
-
-}
-
-
-#hint.hidden {
-
-    opacity: 0;
-
-}
-
-
-
-/* ========================================= */
-/* SHOP */
-/* ========================================= */
 
 #shop {
-
     position: fixed;
-
-    right: 25px;
-
-    bottom: 25px;
-
-    z-index: 10;
-
-    width: 190px;
-
-    padding: 15px;
-
-    background:
-        rgba(5,5,5,0.65);
-
-    border:
-        1px solid rgba(255,255,255,0.12);
-
-    backdrop-filter:
-        blur(10px);
-
-}
-
-
-.shopTitle {
-
-    font-size: 10px;
-
-    letter-spacing: 3px;
-
-    color: #888;
-
-    margin-bottom: 10px;
-
-}
-
-
-.shopButton {
-
-    width: 100%;
-
-    margin-bottom: 7px;
-
-    padding: 9px;
+    bottom: 20px;
+    right: 20px;
 
     display: flex;
-
-    justify-content: space-between;
-
-    font-size: 10px;
-
-    letter-spacing: 1px;
-
-}
-
-
-.shopButton span {
-
-    color: #777;
-
-}
-
-
-.shopButton:disabled {
-
-    opacity: 0.3;
-
-    cursor: not-allowed;
-
-}
-
-
-
-/* ========================================= */
-/* INTERACTION PANEL */
-/* ========================================= */
-
-#interactionPanel {
-
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 15;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    background:
-        rgba(0,0,0,0.35);
-
-    backdrop-filter:
-        blur(4px);
-
-}
-
-
-#interactionPanel.hidden {
-
-    display: none;
-
-}
-
-
-#interactionBox {
-
-    width: 360px;
-
-    max-width: 90%;
-
-    padding: 35px;
-
-    background:
-        rgba(10,10,10,0.92);
-
-    border:
-        1px solid rgba(255,255,255,0.18);
-
-    text-align: center;
-
-}
-
-
-#interactionTitle {
-
-    font-size: 12px;
-
-    letter-spacing: 5px;
-
-    margin-bottom: 25px;
-
-}
-
-
-#interactionText {
-
-    color: #aaa;
-
-    font-size: 14px;
-
-    line-height: 1.7;
-
-    margin-bottom: 30px;
-
-}
-
-
-#interactionButtons {
-
-    display: flex;
-
+    flex-direction: column;
     gap: 10px;
-
-    justify-content: center;
-
 }
 
+button {
+    background: rgba(255,255,255,0.08);
+    color: white;
+    border: 1px solid #666;
+    padding: 10px;
+    cursor: pointer;
+}
 
-
-/* ========================================= */
-/* FLOATING MESSAGE */
-/* ========================================= */
+button:hover {
+    background: rgba(255,255,255,0.2);
+}
 
 #message {
-
     position: fixed;
-
     left: 50%;
+    top: 50%;
 
-    top: 45%;
-
-    transform:
-        translate(-50%, -50%);
-
-    z-index: 30;
-
-    pointer-events: none;
-
-    color: white;
-
-    font-size: 13px;
-
-    letter-spacing: 4px;
+    transform: translate(-50%, -50%);
 
     opacity: 0;
 
-    transition:
-        opacity 1.5s ease;
+    transition: 1s;
 
+    letter-spacing: 3px;
 }
-
 
 #message.show {
-
-    opacity: 0.8;
-
+    opacity: 1;
 }
 
-
-
-/* ========================================= */
-/* ENDING */
-/* ========================================= */
-
-#ending {
-
+#startScreen {
     position: fixed;
-
     inset: 0;
 
-    z-index: 25;
-
-    background:
-        rgba(3,3,3,0.92);
+    background: #050505;
 
     display: flex;
+    flex-direction: column;
 
     align-items: center;
-
     justify-content: center;
 
-    text-align: center;
-
-    opacity: 0;
-
-    pointer-events: none;
-
-    transition:
-        opacity 2s ease;
-
+    z-index: 10;
 }
 
-
-#ending.show {
-
-    opacity: 1;
-
-    pointer-events: auto;
-
-}
-
-
-.endingContent h1 {
-
-    font-size: 50px;
-
-    font-weight: 300;
-
-    letter-spacing: 12px;
-
-}
-
-
-.endingContent p {
-
-    color: #999;
-
-    font-size: 13px;
-
-    letter-spacing: 2px;
-
-    margin-bottom: 35px;
-
-}
-
-
-.hidden {
-
+#startScreen.hidden {
     display: none;
-
 }
